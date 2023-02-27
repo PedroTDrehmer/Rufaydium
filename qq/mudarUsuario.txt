@@ -1,0 +1,93 @@
+#Include functions.ahk
+
+LoginDominioWeb(){
+    global usuarioD
+    global senhaD
+
+    Run msedge.exe https://www.dominioweb.com.br/
+    Sleep, 500
+    WinActivate, ahk_exe msedge.exe
+    Sleep, 3000
+    AguardarImagem("DominioWebIcone")
+    CliqueImagem("DominioWebIcone")
+    Send, %usuarioD%
+    Sleep, 500
+    Send, {Tab}
+    Sleep, 500
+    SendRaw, %senhaD%
+    Sleep, 500
+    CliqueImagem("DominioWebEntrar")
+    Sleep, 3000
+    AguardarImagem("DominioWebContinuar")
+    CliqueImagem("DominioWebContinuar")
+    Sleep, 5000
+}
+ 
+LoginFiscal(){
+    global usuarioF
+    global usuarioF2
+    global usuarioFLabel
+    global usuarioF2Label
+    global senhaF
+    global dia_atual
+ 
+    AguardarImagem("LoginFiscal")
+    CliqueImagem("LoginFiscal")
+    Sleep, 500
+    Click
+    Click
+    Sleep, 5000
+
+    AguardarTela("Conectando")
+    if WinExist("Conectando"){
+        WinActivate
+    }
+    else{
+        MsgBox, Tela 'Conectando' não encontrada.
+        ExitApp
+    }    
+    
+    If (dia_atual = 1){
+        existeUsuario := ConfirmacaoTexto(usuarioF2Label)
+            If (existeUsuario = False){
+                Send, %usuarioF2%
+                Send, {Tab}
+                Send, %senhaF%
+                CliqueImagem("LoginFiscalOk")
+                Sleep, 5000
+            } Else{
+                Send, %senhaF%
+                CliqueImagem("LoginFiscalOk")
+                Sleep, 5000
+            }
+        
+    }Else{
+        existeUsuario := ConfirmacaoTexto(usuarioFLabel)
+            if (existeUsuario = False){
+                Send, %usuarioF%
+                Send, {Tab}
+                Send, %senhaF%
+                ; CliqueImagem("LoginFiscalOk")
+                ; Sleep, 5000
+            }
+            Else {
+                Send, %senhaF%
+                ; CliqueImagem("LoginFiscalOk")
+                ; Sleep, 5000
+            }
+    }
+}
+
+Deslogar(){
+    CliqueImagem("DeslogarControle")
+    Sleep, 2000
+    CliqueImagem("DeslogarSair")
+    Sleep, 2000
+    AguardarImagem("DeslogarOk")
+    Sleep, 1000
+    CliqueImagem("DeslogarOk")
+    Sleep, 2000
+    AguardarImagem("DominioWebLogo")
+    Sleep, 1000
+    CliqueImagem("Informacoes")
+}
