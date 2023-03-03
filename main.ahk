@@ -1,4 +1,4 @@
-#Include C:\Users\Myukenn\Documents\AutoHotkey\Lib\Rufaydium.ahk
+#Include Src
 
 '::
 
@@ -14,10 +14,7 @@ texto.value := "TESTEEE"
 texto.SendKey(key.enter)    
 texto := Page.getElementsbyXpath("//*[@id='rso']/div[1]/div/div/div/div[1]/div/a/h3")[0].click()
 
-; Msgbox % texto
-
 return
-
 
 Esc::
 WinClose, msedge.exe

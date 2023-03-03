@@ -1,4 +1,4 @@
-﻿#Include C:\Users\Myukenn\Documents\AutoHotkey\Lib\Rufaydium.ahk
+﻿#Include Src
 
 '::
 
@@ -9,11 +9,6 @@ Page := Chrome.NewSession()
 Page.Navigate("https://www.google.com/")
 
 return
-
-
-
-
-
 
 Esc::
 Chrome.QuitAllSessions() ; close all session 
