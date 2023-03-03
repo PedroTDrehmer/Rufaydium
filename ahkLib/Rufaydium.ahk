@@ -25,9 +25,9 @@
 Class Rufaydium
 {
 	static WebRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-	__new(DriverName:="chromedriver.exe",Parameters:="--port=0")
+	__new(DriverName:="msedgedriver.exe",Parameters:="--port=0")
 	{
-		this.Driver := new RunDriver(DriverName,Parameters)
+		this.Driver := new RunDriver(A_MyDocuments . "\AutoHotkey\Lib\msedgedriver.exe" ,Parameters)
 		this.DriverUrl := "http://127.0.0.1:" This.Driver.Port
 		Switch this.Driver.Name
 		{
