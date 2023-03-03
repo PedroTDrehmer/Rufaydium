@@ -20,14 +20,14 @@
 #Include JSON.ahk
 #include WDElements.ahk
 #Include Capabilities.ahk
-#include actions.ahk
+#include actions.ahk 
 
 Class Rufaydium
 {
 	static WebRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-	__new(DriverName:="msedgedriver.exe",Parameters:="--port=0")
+	__new(DriverName:="chromedriver.exe",Parameters:="--port=0")
 	{
-		this.Driver := new RunDriver(A_MyDocuments . "\AutoHotkey\Lib\msedgedriver.exe",Parameters)
+		this.Driver := new RunDriver(DriverName,Parameters)
 		this.DriverUrl := "http://127.0.0.1:" This.Driver.Port
 		Switch this.Driver.Name
 		{
@@ -41,8 +41,8 @@ Class Rufaydium
 				this.capabilities := new OperaCapabilities(this.Driver.browser,this.Driver.Options)
 			case "BraveDriver" :
 				this.capabilities := new BraveCapabilities(this.Driver.browser,this.Driver.Options)
-				this.capabilities.Setbinary("C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe")
-				; drive might crash for 32 Brave on 64 bit OS there for we can load binary while new session,
+				this.capabilities.Setbinary("C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe") 
+				; drive might crash for 32 Brave on 64 bit OS there for we can load binary while new session, 
 				; i.e. >> NewSession("32bit brave browser exe location")
 		}
 		this.Driver.Location := this.Driver.GetPath() ;this.Driver.Dir "\" this.Driver.exe
@@ -196,7 +196,7 @@ Class Rufaydium
 				{
 					IniDelete, % this.driver.dir "/ActiveSessions.ini", % This.driver.Name, % se
 					continue
-				}
+				}	
 				r :=  this.Send(this.DriverUrl "/session/" $1 "/url","GET")
 				if r.error
 					IniDelete, % this.driver.dir "/ActiveSessions.ini", % This.driver.Name, % $1
@@ -316,7 +316,7 @@ Class Session
 							{
 								this.BroswerPID := proc2.processid
 								break
-							}
+							} 
 		}
 	}
 
@@ -362,11 +362,11 @@ Class Session
 	NewWindow(i:=1) ; by https://github.com/hotcheesesoup
 	{
 		This.currentTab := this.Send("window/new","POST",{"type":"window"}).handle
-		if i
+		if i 
 			This.Switch(This.currentTab)
 	}
 
-	; Traditional Browser Json/List
+	; Traditional Browser Json/List 
 	Detail()
 	{
 		return Json.load(Rufaydium.Request(this.debuggerAddress "/json/list","GET"))
@@ -400,7 +400,7 @@ Class Session
 		{
 			wingettitle, title, % "ahk_pid " this.BroswerPID
 			this.SwitchbyTitle(strreplace(title," — Mozilla Firefox"))
-		}
+		}	
 	}
 
 	; switch tab/window by number 'i'
@@ -412,9 +412,9 @@ Class Session
 	; Switch tab/window by Title
 	SwitchbyTitle(Title:="")
 	{
-		; Rufaydium will soon use CDP Target's methods to re-access sessions and pages
+		; Rufaydium will soon use CDP Target's methods to re-access sessions and pages 
 		; might able to access pages even after restarting webdriver
-		; Targets := this.CDP.GetTargets()
+		; Targets := this.CDP.GetTargets() 
 		handles := this.GetTabs()
 		try pages := this.Detail() ; if Browser closed by user this will closed the session
 		if !pages
@@ -431,7 +431,7 @@ Class Session
 						this.Switch(handle)
 						if instr(this.title,Title)
 							return
-						else
+						else	
 							continue
 					}
 
@@ -445,16 +445,16 @@ Class Session
 				}
 			}
 		}
-		if pHandle
+		if pHandle 
 			this.Switch(handle)
 	}
 
 	; Switch tab/window by URL
 	SwitchbyURL(url:="",Silent:=1)
 	{
-		; Rufaydium will soon use CDP Target's methods to re-access sessions and pages
+		; Rufaydium will soon use CDP Target's methods to re-access sessions and pages 
 		; might able to access pages even after restarting webdriver
-		;Targets := this.CDP.GetTargets()
+		;Targets := this.CDP.GetTargets() 
 		handles := this.GetTabs()
 		try pages := this.Detail() ; if Browser closed by user this will closed the session
 		if !pages
@@ -925,9 +925,9 @@ Class Session
 				Interaction := ""
 			}
 			return this.Send("actions","POST",{"actions":ActionArray})
-		}
+		}	
 		else
-			return this.Send("actions","DELETE")
+			return this.Send("actions","DELETE")	
 	}
 
 	execute_sql()
@@ -1008,7 +1008,7 @@ isProgInstalled(Prog)
 wkhtmltopdf(HtML,pdf,options)
 {
 	htmlloc := StrReplace(pdf, ".pdf",".html")
-
+	
 	while FileExist(pdf)
 		FileDelete, % pdf
 
@@ -1030,7 +1030,7 @@ wkhtmltopdf(HtML,pdf,options)
 			if !fileexist(wkhtmltopdf)
 			{
 				msg := "Error:`tunable to print pdf using 'wkhtmltopdf'"
-				msg .= "`nReason:`tUnable to read registry or Default location for`n`t" wkhtmltopdf
+				msg .= "`nReason:`tUnable to read registry or Default location for`n`t" wkhtmltopdf 
 				msg .= "`n`nPlease run program as administrator or at least with registry reading privilages,"
 				msg .= "`n`nPress OK to conitnue"
 				MsgBox,,Rufaydium, % msg
@@ -1061,11 +1061,11 @@ wkhtmltopdf(HtML,pdf,options)
 		if options.background
 			cmd .= " --background "
 		else
-			cmd .= " --no-background "
-
+			cmd .= " --no-background "	
+		
 		cmd .= " " chr(34) htmlloc chr(34) " " chr(34) pdf chr(34)
 		runwait, %  cmd,,Hide
-	}
+	}	
 	else if IsObject(options)
 		runwait, % wkhtmltopdf " " options " " chr(34) htmlloc chr(34) " " chr(34) pdf chr(34),,Hide
 	else
